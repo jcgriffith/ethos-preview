@@ -298,7 +298,10 @@ blockquote.pull cite { display: block; margin-top: .6em; font: 400 .92rem var(--
 .breath-flower.closed .r1 { transform: scale(.4) rotate(40deg); }
 .breath-flower.closed .r2 { transform: scale(.44) rotate(-50deg); }
 .breath-flower.closed .r3 { transform: scale(.5) rotate(60deg); }
-.breath-cue { margin: 20px 0 0; min-height: 3.2em; font: italic 400 1.55rem/1.25 var(--serif); color: var(--green-deep); }
+.breath-cue { margin: 20px 0 0; min-height: 2.9em; font: italic 400 1.55rem/1.25 var(--serif); color: var(--green-deep); }
+.breath-label { margin: 10px 0 0; font: 700 .72rem/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.breath-note { margin: 1.6rem 0 0; max-width: 34em; font-size: .92rem; line-height: 1.55; color: var(--muted); }
+.breath-note strong { color: var(--ink); }
 .breath-cue small { display: block; margin-top: 6px; font: 700 .78rem/1 var(--sans); font-style: normal; letter-spacing: .14em; text-transform: uppercase; color: var(--copper); }
 @media (prefers-reduced-motion: reduce) {
   .breath-flower { transition: opacity var(--dur, 1.5s) ease; }
