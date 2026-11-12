@@ -422,6 +422,9 @@ details.faq p { margin: 14px 0 0; color: var(--muted); max-width: 46em; }
 /* Responsive
    Desktop: 961px and up. Tablet: 740-960px (two columns kept, compact nav below 860).
    Phone: 739px and down (single column, Menu button, call bar). */
+@media (max-width: 1023px) {
+  .hero .eyebrow .hide-sm { display: none; }   /* keeps the hero's top line to one line beside the photo */
+}
 @media (max-width: 960px) {
   .concerns, .film, .cta, .grid-3 { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
