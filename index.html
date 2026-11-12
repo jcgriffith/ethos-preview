@@ -33,7 +33,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,100;1,9..144,300..600,100&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=8">
+<link rel="stylesheet" href="assets/site.css?v=10">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -109,6 +109,21 @@
       <li>Chronic pain &amp; IBS</li>
       <li>Career, retirement &amp; purpose</li>
     </ul>
+  </div>
+</section>
+
+<section class="cream" data-breath hidden>
+  <div class="wrap breath">
+    <div>
+      <span class="eyebrow">A minute for you</span>
+      <h2>Take a breath with us.</h2>
+      <p class="lede">You don’t have to book anything to feel a little steadier today. Follow the flower: breathe in as it opens, and out as it closes.</p>
+      <div class="btn-row"><button class="btn btn-primary" type="button" data-breath-toggle>Start a one-minute breath</button></div>
+    </div>
+    <div class="breath-stage">
+      <div class="breath-flower" data-breath-flower></div>
+      <p class="breath-cue" data-breath-cue aria-live="polite">Six slow breaths. About a minute.</p>
+    </div>
   </div>
 </section>
 
@@ -258,7 +273,13 @@
   </div>
 </footer>
 
-<script src="assets/garden.js?v=1" defer></script>
+<div class="callbar">
+  <a class="btn btn-ghost" href="tel:+17853333793">Call</a>
+  <a class="btn btn-primary" href="contact.html#start">Request an appointment</a>
+</div>
+
+<script src="assets/garden.js?v=2" defer></script>
+<script src="assets/site.js?v=1" defer></script>
 <script>
   const t = document.querySelector('.nav-toggle'), n = document.getElementById('nav');
   t.addEventListener('click', () => { const o = n.classList.toggle('open'); t.setAttribute('aria-expanded', o); });

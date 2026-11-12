@@ -111,7 +111,8 @@
   // Wrap a drawing in the groups that position, bloom, sway and spin it.
   const plant = (svg, x, y, cls, delay, draw, rnd) => {
     const at = el('g', { transform: `translate(${f(x)} ${f(y)})`, class: cls }, svg);
-    const bloom = el('g', { class: 'g-bloom', style: `--d:${Math.round(delay)}ms` }, at);
+    const lean = el('g', { class: 'g-lean' }, at);
+    const bloom = el('g', { class: 'g-bloom', style: `--d:${Math.round(delay)}ms` }, lean);
     const sway = el('g', { class: 'g-sway', style: `--t:${f(6 + rnd() * 6)}s;--a:${f(2.5 + rnd() * 4)}deg;animation-delay:${f(-rnd() * 8)}s` }, bloom);
     draw(el('g', { class: 'g-spin' }, sway));
     return at;
@@ -178,6 +179,7 @@
     LAYOUTS[layout](svg, W, H, pal, rngFrom(seed), edge, host.dataset.flower);
     host.appendChild(svg);
     host._w = W;
+    host._pal = pal;
   };
 
   const start = () => {
@@ -209,13 +211,54 @@
         if (/band|edge/.test(h.dataset.garden || 'band') && Math.abs(h.clientWidth - h._w) > 40) render(h);
       }), 200);
     });
-    // Tap a flower to give it a twirl (hover does the same with a mouse).
+    // Tap a flower to give it a twirl (hover does the same with a mouse). Tap a strip of rug to plant a new one.
     document.addEventListener('click', (e) => {
-      const fl = e.target.closest && e.target.closest('.g-flower');
-      if (!fl) return;
-      fl.classList.add('twirl');
-      setTimeout(() => fl.classList.remove('twirl'), 900);
+      if (!e.target.closest) return;
+      const fl = e.target.closest('.g-flower');
+      if (fl) {
+        fl.classList.add('twirl');
+        setTimeout(() => fl.classList.remove('twirl'), 900);
+        return;
+      }
+      const host = e.target.closest('.rug.garden'), svg = host && host.querySelector('svg');
+      if (!svg) return;
+      const box = svg.getBoundingClientRect(), rnd = rngFrom((Math.random() * 1e9) | 0);
+      const x = e.clientX - box.left, y = e.clientY - box.top, r = box.height * (.15 + rnd() * .13);
+      addSprig(svg, x, y, r * 1.9, rnd() * 360, host._pal, rnd, 0).classList.add('g-new');
+      addFlower(svg, x, y, r, host._pal, rnd, 0);
+      svg.lastElementChild.classList.add('g-new');
     });
+
+    // With a mouse, nearby flowers lean a little toward the pointer.
+    if (matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let px = 0, py = 0, queued = false;
+      const leaning = new Set();
+      const update = () => {
+        queued = false;
+        const near = new Set();
+        document.querySelectorAll('.garden').forEach((h) => {
+          const b = h.getBoundingClientRect();
+          if (px < b.left - 150 || px > b.right + 150 || py < b.top - 150 || py > b.bottom + 150) return;
+          const svg = h.querySelector('svg');
+          if (!svg) return;
+          const k = b.width / svg.viewBox.baseVal.width;   // screen pixels per drawing unit
+          h.querySelectorAll('.g-flower').forEach((fl) => {
+            const r = fl.getBoundingClientRect();
+            const dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height / 2), d = Math.hypot(dx, dy);
+            if (d > 150 || d < 1) return;
+            const pull = (Math.min(9, r.width * .2) * (1 - d / 150)) / k;
+            fl.firstChild.style.transform = `translate(${f((dx / d) * pull)}px, ${f((dy / d) * pull)}px)`;
+            near.add(fl);
+          });
+        });
+        leaning.forEach((fl) => { if (!near.has(fl)) { fl.firstChild.style.transform = ''; leaning.delete(fl); } });
+        near.forEach((fl) => leaning.add(fl));
+      };
+      addEventListener('pointermove', (e) => {
+        px = e.clientX; py = e.clientY;
+        if (!queued) { queued = true; requestAnimationFrame(update); }
+      }, { passive: true });
+    }
   };
   window.EthosGarden = { render, PALETTES };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);

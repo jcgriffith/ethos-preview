@@ -186,13 +186,25 @@ em.serif, .serif-i { font-family: var(--serif); font-style: italic; }
   .garden .g-sway { animation: g-sway var(--t, 8s) ease-in-out infinite alternate; }
   .garden .g-flower .g-spin { transition: transform .9s cubic-bezier(.34, 1.4, .64, 1); }
   .garden .g-flower:hover .g-spin, .garden .g-flower.twirl .g-spin { transform: rotate(72deg) scale(1.14); }
+  .garden .g-lean { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
+  .garden .g-new .g-bloom { animation: g-pop .9s cubic-bezier(.34, 1.4, .64, 1) both; }
+  @keyframes g-pop { from { transform: scale(0) rotate(-70deg); } }
   @keyframes g-sway { from { transform: rotate(calc(var(--a, 4deg) * -1)); } to { transform: rotate(var(--a, 4deg)); } }
 }
 /* A strip of rug between sections */
 .rug {
+  position: relative; cursor: pointer;
   height: 118px; overflow: hidden;
   background: #ead9bd repeating-linear-gradient(90deg, rgba(90, 60, 30, .05) 0 1px, transparent 1px 4px);
   border-block: 6px solid var(--green-deep);
+}
+@media (hover: hover) {
+  .rug::after {
+    content: "Click to plant a flower"; position: absolute; right: 14px; bottom: 10px; pointer-events: none;
+    background: var(--green-deep); color: #fff; font: 700 .7rem/1 var(--sans); letter-spacing: .1em; text-transform: uppercase;
+    padding: 7px 11px; border-radius: 999px; opacity: 0; transition: opacity .25s ease;
+  }
+  .rug:hover::after { opacity: .92; }
 }
 /* Flowers along the top edge of the footer */
 .garden-edge { position: absolute; left: 0; right: 0; top: -46px; height: 92px; overflow-x: clip; pointer-events: none; }
@@ -275,6 +287,56 @@ blockquote.pull cite { display: block; margin-top: .6em; font: 400 .92rem var(--
 .phone video { border-radius: 26px; width: 100%; aspect-ratio: 9/16; object-fit: cover; background: #000; }
 .phone-cap { text-align: center; font-size: .9rem; color: #c9d3cd; margin-top: 14px; }
 
+/* Breathing flower */
+.breath { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+.breath-stage { text-align: center; }
+.breath-flower { width: min(340px, 76vw); aspect-ratio: 1; margin-inline: auto; }
+.breath-flower svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.breath-flower .ring, .breath-flower .halo { transform-origin: 0 0; transition: transform var(--dur, 1.5s) cubic-bezier(.45, 0, .55, 1); }
+.breath-flower.closed .halo { transform: scale(.6); }
+.breath-flower.closed .r0 { transform: scale(.52) rotate(-24deg); }
+.breath-flower.closed .r1 { transform: scale(.4) rotate(40deg); }
+.breath-flower.closed .r2 { transform: scale(.44) rotate(-50deg); }
+.breath-flower.closed .r3 { transform: scale(.5) rotate(60deg); }
+.breath-cue { margin: 20px 0 0; min-height: 3.2em; font: italic 400 1.55rem/1.25 var(--serif); color: var(--green-deep); }
+.breath-cue small { display: block; margin-top: 6px; font: 700 .78rem/1 var(--sans); font-style: normal; letter-spacing: .14em; text-transform: uppercase; color: var(--copper); }
+@media (prefers-reduced-motion: reduce) {
+  .breath-flower { transition: opacity var(--dur, 1.5s) ease; }
+  .breath-flower.closed { opacity: .45; }
+  .breath-flower.closed .halo, .breath-flower.closed .ring { transform: none; }
+}
+
+/* Sections rise in on scroll (classes are added by site.js, so nothing hides without it) */
+.js-reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s ease var(--rd, 0ms), transform .9s cubic-bezier(.2, .7, .2, 1) var(--rd, 0ms); }
+.js-reveal.seen { opacity: 1; transform: none; }
+
+/* Page-to-page transitions: pages cross-fade while the header stays put */
+.topbar { view-transition-name: topbar; }
+.site-header { view-transition-name: site-header; }
+.callbar { view-transition-name: callbar; }
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: vt-out .26s ease both; }
+  ::view-transition-new(root) { animation: vt-in .45s ease both; }
+  @keyframes vt-out { to { opacity: 0; transform: translateY(-10px); } }
+  @keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }
+}
+
+/* Call bar pinned to the bottom of phone screens */
+.callbar { display: none; }
+@media (max-width: 700px) {
+  .callbar {
+    display: grid; grid-template-columns: auto 1fr; gap: 10px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(251, 246, 236, .96); backdrop-filter: blur(8px); border-top: 1px solid var(--line);
+    transition: transform .35s ease;
+  }
+  .callbar .btn { justify-content: center; padding: .82em 1.1em; }
+  .callbar.tucked { transform: translateY(110%); }
+  footer.site-footer { padding-bottom: 104px; }
+}
+
 /* Promo film */
 .film { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(32px, 6vw, 72px); align-items: center; }
 .film-frame { position: relative; }
@@ -354,7 +416,7 @@ details.faq p { margin: 14px 0 0; color: var(--muted); max-width: 46em; }
 
 /* Responsive */
 @media (max-width: 960px) {
-  .hero .wrap, .concerns, .person, .person.flip, .find, .film, .cta, .grid-2 { grid-template-columns: 1fr; }
+  .hero .wrap, .concerns, .breath, .person, .person.flip, .find, .film, .cta, .grid-2 { grid-template-columns: 1fr; }
   .person.flip .person-photo { order: 0; }
   .hero-media { max-width: 460px; margin-inline: auto; width: 100%; }
   .hero-badge { left: 0; }
