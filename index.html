@@ -33,7 +33,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,100;1,9..144,300..600,100&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=12">
+<link rel="stylesheet" href="assets/site.css?v=13">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -67,7 +67,7 @@
 <section class="hero">
   <div class="wrap">
     <div>
-      <span class="eyebrow rise">Therapy &amp; life coaching · Downtown Manhattan, Kansas</span>
+      <span class="eyebrow rise"><span class="hide-sm">Therapy &amp; life coaching · </span>Downtown Manhattan, Kansas</span>
       <h1 class="rise d1"><span class="quote">“Why did I wait so long?”</span></h1>
       <p class="hero-sub rise d2">Almost everyone says it after their first few sessions. <strong>Pain is part of life. Suffering alone doesn’t have to be.</strong> We help teens and adults work through trauma, anxiety and depression, and find their way back to peace.</p>
       <div class="btn-row rise d3">
@@ -81,6 +81,7 @@
     </div>
     <div class="hero-media rise d4">
       <div class="arch-wrap">
+        <div class="garden arch-posy" data-garden="corner" data-seed="7" role="presentation"></div>
         <div class="arch"><img src="assets/img/room-teal.jpg" alt="A therapy room at Ethos with green walls, a copper tin ceiling, exposed brick and a floral rug" width="1067" height="1600"></div>
         <div class="hero-badge"><span class="garden garden-pin" data-garden="flower" data-seed="6" data-flower="rose" role="presentation"></span><b>Come as you are.</b>In person in Suite 207, or by telehealth from home.</div>
       </div>
@@ -280,8 +281,8 @@
   <a class="btn btn-primary" href="contact.html#start">Request an appointment</a>
 </div>
 
-<script src="assets/garden.js?v=2" defer></script>
-<script src="assets/site.js?v=1" defer></script>
+<script src="assets/garden.js?v=3" defer></script>
+<script src="assets/site.js?v=2" defer></script>
 <script>
   const t = document.querySelector('.nav-toggle'), n = document.getElementById('nav');
   t.addEventListener('click', () => { const o = n.classList.toggle('open'); t.setAttribute('aria-expanded', o); });

@@ -1,4 +1,4 @@
-/* Ethos site behaviour: sections rise in on scroll, the phone call bar, and the breathing flower. */
+/* Ethos site behaviour: sections rise in on scroll, and the breathing flower. */
 (() => {
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -18,14 +18,6 @@
       n.classList.add('js-reveal');
       io.observe(n);
     });
-  }
-
-  // Phone call bar: stays tucked away until the visitor has scrolled past the top of the page.
-  const bar = document.querySelector('.callbar');
-  if (bar) {
-    const tuck = () => bar.classList.toggle('tucked', scrollY < 320);
-    tuck();
-    addEventListener('scroll', tuck, { passive: true });
   }
 
   // Breathing flower: opens for a four-second breath in, closes for a six-second breath out, six times.

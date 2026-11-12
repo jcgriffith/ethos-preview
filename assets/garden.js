@@ -113,7 +113,7 @@
     const at = el('g', { transform: `translate(${f(x)} ${f(y)})`, class: cls }, svg);
     const lean = el('g', { class: 'g-lean' }, at);
     const bloom = el('g', { class: 'g-bloom', style: `--d:${Math.round(delay)}ms` }, lean);
-    const sway = el('g', { class: 'g-sway', style: `--t:${f(6 + rnd() * 6)}s;--a:${f(2.5 + rnd() * 4)}deg;animation-delay:${f(-rnd() * 8)}s` }, bloom);
+    const sway = el('g', { class: 'g-sway', style: `--t:${f(6 + rnd() * 6)}s;--a:${f(5 + rnd() * 7)}deg;animation-delay:${f(-rnd() * 8)}s` }, bloom);
     draw(el('g', { class: 'g-spin' }, sway));
     return at;
   };
