@@ -1,2 +1,8 @@
+User-agent: facebookexternalhit
+User-agent: Twitterbot
+User-agent: LinkedInBot
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
 User-agent: *
 Disallow: /
