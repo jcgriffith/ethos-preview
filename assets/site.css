@@ -220,6 +220,7 @@ em.serif, .serif-i { font-family: var(--serif); font-style: italic; }
 .garden-bullet .g-bloom { --d: calc(var(--i, 0) * 70ms); }
 
 /* Sections */
+main { overflow-x: clip; }   /* decorative flowers may poke past the edge; never let them cause sideways scroll */
 section { padding: clamp(64px, 9vw, 120px) 0; }
 .section-head { max-width: 760px; margin-bottom: 48px; }
 .dark { background: var(--green-deep); color: #e8e0d1; }
@@ -292,7 +293,7 @@ blockquote.pull cite { display: block; margin-top: .6em; font: 400 .92rem var(--
 /* Breathing flower */
 .breath { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
 .breath-stage { text-align: center; }
-.breath-flower { width: min(340px, 76vw); aspect-ratio: 1; margin-inline: auto; }
+.breath-flower { width: min(340px, 76vw, 100%); aspect-ratio: 1; margin-inline: auto; }
 .breath-flower svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .breath-flower .ring, .breath-flower .halo { transform-origin: 0 0; transition: transform var(--dur, 1.5s) cubic-bezier(.45, 0, .55, 1); }
 .breath-flower.closed .halo { transform: scale(.6); }
@@ -329,39 +330,6 @@ blockquote.pull cite { display: block; margin-top: .6em; font: 400 .92rem var(--
 
 /* Call bar pinned to the bottom of phone screens */
 .callbar { display: none; }
-@media (max-width: 700px) {
-  .callbar {
-    display: grid; grid-template-columns: auto 1fr; gap: 10px;
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
-    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-    background: rgba(251, 246, 236, .96); backdrop-filter: blur(8px); border-top: 1px solid var(--line);
-    transition: transform .35s ease;
-  }
-  .callbar .btn { justify-content: center; padding: .82em 1.1em; }
-  footer.site-footer { padding-bottom: 104px; }
-
-  /* Phone layout: one-line top bar, compact header, and the arch photo straight after the headline */
-  .hide-sm { display: none; }
-  .topbar .wrap { padding: 7px 0; }
-  .topbar .wrap span:first-child { display: none; }   /* the address is in the footer and on Find us */
-  .site-header .wrap { padding: 10px 0; }
-  .brand-mark { width: 38px; height: 44px; }
-  .hero { padding: 26px 0 52px; }
-  .hero .wrap { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
-  .hero .wrap > div:first-child { display: contents; }
-  .hero .eyebrow { order: 1; margin-bottom: .8rem; }
-  .hero h1 { order: 2; margin-bottom: .5em; }
-  .hero-media { order: 3; margin: 10px auto 30px; }
-  .hero-sub { order: 4; font-size: 1.12rem; }
-  .hero .btn-row { display: none; }                    /* the call bar carries both buttons on phones */
-  .hero .watch { order: 5; margin-top: .4rem; }
-  .arch { aspect-ratio: 4 / 4.5; }
-  .arch-posy { left: -14px; top: -20px; }
-  .hero-badge { bottom: 20px; max-width: 208px; padding: 12px 16px; font-size: .86rem; }
-  .hero-badge b { font-size: 1.05rem; }
-  .hero .watch { align-self: flex-start; }
-}
-
 /* Promo film */
 .film { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(32px, 6vw, 72px); align-items: center; }
 .film-frame { position: relative; }
@@ -448,18 +416,35 @@ details.faq p { margin: 14px 0 0; color: var(--muted); max-width: 46em; }
 .crisis strong { color: var(--marigold); }
 .legal { margin-top: 30px; font-size: .82rem; color: #8fa19b; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 
-/* Responsive */
+/* Responsive
+   Desktop: 961px and up. Tablet: 740-960px (two columns kept, compact nav below 860).
+   Phone: 739px and down (single column, Menu button, call bar). */
 @media (max-width: 960px) {
-  .hero .wrap, .concerns, .breath, .person, .person.flip, .find, .film, .cta, .grid-2 { grid-template-columns: 1fr; }
+  .concerns, .film, .cta, .grid-3 { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .approach { grid-template-columns: 1fr; gap: 8px; }
+  .hero-badge { left: -18px; }
+  .steps li { grid-template-columns: 112px 1fr; gap: 18px; }
+  .steps img { width: 112px; height: 100px; }
+  .garden-corner { width: 200px; }
+  .film-frame .garden-pin { right: -10px; }
+  .person { align-items: start; }
+  .page-hero .lede { max-width: min(34em, 100% - 200px); }
+}
+@media (min-width: 740px) and (max-width: 860px) {
+  /* iPad portrait: keep the whole nav on screen by tightening it and dropping the tagline */
+  .brand-name small { display: none; }
+  .nav { gap: 15px; }
+  .nav a { font-size: .9rem; }
+  .nav .btn { padding: .68em .95em; font-size: .86rem; }
+}
+@media (max-width: 739px) {
+  .hero .wrap, .breath, .person, .person.flip, .find, .grid-2, .paths { grid-template-columns: 1fr; }
   .person.flip .person-photo { order: 0; }
   .hero-media { max-width: 460px; margin-inline: auto; width: 100%; }
   .hero-badge { left: 0; }
-  .paths, .grid-3 { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .approach { grid-template-columns: 1fr; gap: 8px; }
-}
-@media (max-width: 860px) {
   .garden-corner { display: none; }
+  .page-hero .lede { max-width: 34em; }
   .nav-toggle {
     display: inline-flex; background: none; border: 2px solid var(--green-deep); color: var(--green-deep);
     border-radius: 999px; padding: 8px 16px; font: 700 .9rem var(--sans); cursor: pointer;
@@ -472,6 +457,37 @@ details.faq p { margin: 14px 0 0; color: var(--muted); max-width: 46em; }
   .nav.open { display: flex; }
   .nav a { padding: 12px 0; width: 100%; border-bottom: 1px solid var(--line); }
   .nav .btn { margin-top: 14px; width: auto; border-bottom: 0; }
+
+  .callbar {
+    display: grid; grid-template-columns: auto 1fr; gap: 10px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(251, 246, 236, .96); backdrop-filter: blur(8px); border-top: 1px solid var(--line);
+    transition: transform .35s ease;
+  }
+  .callbar .btn { justify-content: center; padding: .82em 1.1em; }
+  footer.site-footer { padding-bottom: 104px; }
+
+  /* Phone layout: one-line top bar, compact header, and the arch photo straight after the headline */
+  .hide-sm { display: none; }
+  .topbar .wrap { padding: 7px 0; }
+  .topbar .wrap span:first-child { display: none; }   /* the address is in the footer and on Find us */
+  .site-header .wrap { padding: 10px 0; }
+  .brand-mark { width: 38px; height: 44px; }
+  .hero { padding: 26px 0 52px; }
+  .hero .wrap { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .hero .wrap > div:first-child { display: contents; }
+  .hero .eyebrow { order: 1; margin-bottom: .8rem; }
+  .hero h1 { order: 2; margin-bottom: .5em; }
+  .hero-media { order: 3; margin: 10px auto 30px; }
+  .hero-sub { order: 4; font-size: 1.12rem; }
+  .hero .btn-row { display: none; }                    /* the call bar carries both buttons on phones */
+  .hero .watch { order: 5; margin-top: .4rem; }
+  .arch { aspect-ratio: 4 / 4.5; }
+  .arch-posy { left: -14px; top: -20px; }
+  .hero-badge { bottom: 20px; max-width: 208px; padding: 12px 16px; font-size: .86rem; }
+  .hero-badge b { font-size: 1.05rem; }
+  .hero .watch { align-self: flex-start; }
 }
 @media (max-width: 600px) {
   body { font-size: 17px; }
