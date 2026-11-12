@@ -56,6 +56,8 @@ p { margin: 0 0 1.1em; }
   display: block;
 }
 .lede { font-size: 1.22rem; color: var(--muted); max-width: 34em; }
+
+.nowrap { white-space: nowrap; }
 em.serif, .serif-i { font-family: var(--serif); font-style: italic; }
 
 /* Skip link + focus */
