@@ -199,7 +199,8 @@ em.serif, .serif-i { font-family: var(--serif); font-style: italic; }
 .garden-corner { position: absolute; right: max(12px, calc((100% - var(--wrap)) / 2 - 40px)); bottom: -6px; width: clamp(200px, 26vw, 330px); aspect-ratio: 1; }
 /* Single flowers */
 .garden-pin { position: absolute; right: -20px; top: -24px; width: 56px; height: 56px; }
-.garden-bullet { display: inline-block; width: .82em; height: .82em; margin-right: .5em; vertical-align: -.06em; }
+.concern-list li { display: flex; align-items: flex-start; gap: .5em; }
+.garden-bullet { flex: none; width: .82em; height: .82em; margin-top: .21em; }
 .garden-bullet .g-bloom { --d: calc(var(--i, 0) * 70ms); }
 
 /* Sections */
