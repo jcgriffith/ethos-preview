@@ -369,6 +369,15 @@ blockquote.pull cite { display: block; margin-top: .6em; font: 400 .92rem var(--
 .page-hero h1 { max-width: 15ch; }
 .page-hero .lede { margin-top: 1rem; }
 
+/* Page not found */
+.lost { text-align: center; }
+.lost .wrap { max-width: 760px; }
+.lost h1 { font-size: clamp(2.4rem, 5vw, 4rem); }
+.lost .lede { margin-inline: auto; }
+.lost .btn-row { justify-content: center; }
+.lost-flower { width: 112px; height: 112px; margin: 0 auto 22px; }
+.lost-note { margin: 2rem 0 0; color: var(--muted); }
+
 /* Generic content */
 .prose { max-width: 720px; }
 .prose h2 { margin-top: 1.6em; font-size: 2rem; }
