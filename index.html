@@ -33,7 +33,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,100;1,9..144,300..600,100&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -74,6 +74,10 @@
         <a class="btn btn-primary" href="contact.html#start">Request an appointment</a>
         <a class="btn btn-ghost" href="tel:+17853333793">Call 785-333-3793</a>
       </div>
+      <button class="watch rise d4" type="button" data-watch aria-haspopup="dialog">
+        <span class="watch-icon" aria-hidden="true"></span>
+        <span class="watch-label">Watch: 30 seconds with Diane</span>
+      </button>
     </div>
     <div class="hero-media rise d4">
       <div class="arch-wrap">
@@ -211,6 +215,11 @@
 
 </main>
 
+<dialog class="lightbox" id="film-dialog" aria-label="Video: thirty seconds with Diane">
+  <button class="lightbox-close" type="button" aria-label="Close video">Close ✕</button>
+  <video src="assets/video/ethos-promo.mp4?v=2" poster="assets/img/promo-poster.jpg?v=2" controls playsinline preload="none" width="1280" height="720"></video>
+</dialog>
+
 <footer class="site-footer">
   <div class="garden garden-edge" data-garden="edge" data-seed="12" role="presentation"></div>
   <div class="wrap">
@@ -253,6 +262,10 @@
 <script>
   const t = document.querySelector('.nav-toggle'), n = document.getElementById('nav');
   t.addEventListener('click', () => { const o = n.classList.toggle('open'); t.setAttribute('aria-expanded', o); });
+  const dlg = document.getElementById('film-dialog'), film = dlg.querySelector('video');
+  document.querySelector('[data-watch]').addEventListener('click', () => { dlg.showModal(); film.play(); });
+  dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.closest('.lightbox-close')) dlg.close(); });
+  dlg.addEventListener('close', () => { film.pause(); film.currentTime = 0; });
 </script>
 </body>
 </html>
